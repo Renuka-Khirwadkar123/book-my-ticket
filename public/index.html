@@ -109,7 +109,14 @@
               const name = prompt("Enter your name");
               if (!name) return;
 
-              const res = await fetch(`bookings/${id}/${name}`, { method: "PUT" });
+              const res = await fetch(`bookings/${id}/${name}`, {
+                
+                method: "PUT" ,
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                        } 
+
+              });
               const data = await res.json();
 
               if (data.error) {
