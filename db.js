@@ -8,7 +8,7 @@ const pool = new Pool({
   // password: "secret",
   // database: "mydb",
 
-  connectionString: process.env.DEV_DATABASE_URL,
+  connectionString: process.env.DATABASE_URL,
   ssl: isProd ? { rejectUnauthorized: false } : false,
 });
 
