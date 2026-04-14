@@ -51,9 +51,9 @@ app.use("/movies", movieRoutes);
 app.use("/bookings", bookingRoutes);
 app.use("/seats", seatRoutes);
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
+// app.get("/", (req, res) => {
+//   res.sendFile(__dirname + "/index.html");
+// });
 //get all seats
 //Note-This code is moved to controller->seats.js
 // app.get("/seats", async (req, res) => {

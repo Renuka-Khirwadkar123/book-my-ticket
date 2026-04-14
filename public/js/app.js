@@ -116,7 +116,7 @@ async function bookSeat(seat) {
   const name = prompt("Enter your name");
   if (!name) return;
 
-  const res = await fetch(`/${seat.id}/${name}`, {
+  const res = await fetch(`/bookings/${seat.id}/${name}`, {
     method: "PUT"
   });
 
