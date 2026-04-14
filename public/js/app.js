@@ -60,7 +60,6 @@ if (!token) {
               "Authorization": "Bearer " + token
 },
     body: JSON.stringify({
-      movie_id: 1,
       show_id: 1,
       seats: selectedSeats
     })
