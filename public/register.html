@@ -110,7 +110,7 @@ async function register() {
 
   const data = await res.json();
 
-    if (res.status === 409) {
+    if (res.status === 500) {
     alert("User already exists! Please login instead.");
     window.location.href = "login.html";
     return;
