@@ -48,7 +48,9 @@ window.bookSeats = async function () {
 
   const res = await fetch("/bookings", {
     method: "POST",
-    headers: {"Content-Type":"application/json"},
+    headers: {"Content-Type":"application/json",
+              "Authorization": "Bearer " + token
+},
     body: JSON.stringify({
       movie_id: 1,
       show_id: 1,
