@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async() => {
 
 const movie = localStorage.getItem("movie");
 document.getElementById("movieTitle").innerText = "🎬 " + movie;
