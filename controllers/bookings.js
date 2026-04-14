@@ -47,6 +47,8 @@ exports.bookSeats = async (req, res) => {
     res.status(500).json({
       message: "Booking failed",
       error: err.message,
+      detail: err.detail,                           // 👈 postgres gives extra detail here
+      hint: err.hint  
     });
 
   } finally {
