@@ -8,11 +8,14 @@
 
 const express = require("express");
 const app = new express();
+const path = require("path");
 const authRoutes = require("./routes/auth");
 const movieRoutes = require("./routes/movies");
 const showRoutes = require("./routes/shows");
 const bookingRoutes = require("./routes/bookings");
 const seatRoutes = require("./routes/seats");
+
+
 
 // import pg from "pg";
 // import { dirname } from "path";
@@ -41,6 +44,7 @@ const port = process.env.PORT || 8080;
 // });
 // app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authRoutes);
 app.use("/movies", movieRoutes);
 app.use("/shows", showRoutes);
