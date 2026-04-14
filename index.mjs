@@ -99,4 +99,9 @@ app.use("/seats", seatRoutes);
 //   }
 // });
 
+module.exports = app;
+
+if (require.main === module) {
+
 app.listen(port, () => console.log("Server starting on port: " + port));
+}
