@@ -43,6 +43,12 @@ window.bookSeats = async function () {
 
  const token = localStorage.getItem("token");
 
+if (!token) {
+    alert("Please log in to book seats.");
+    return;
+  }
+
+
   if (selectedSeats.length === 0) {
     alert("Select seats first!");
     return;
