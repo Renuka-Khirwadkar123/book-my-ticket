@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movies</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 20px;">
+  <h1>🎬 Now Showing</h1>
+
+  <button onclick="logout()" style="padding:8px 12px; cursor:pointer;">
+    Logout
+  </button>
+</div>
+
+<div class="movies">
+
+  <div class="card" onclick="openMovie('Dhurandhar 2')">
+    <img src="https://i.pinimg.com/736x/20/19/9d/20199dea429b7529e49efffaba38ff28.jpg" />
+    <h2>Dhurandhar 2</h2>
+  </div>
+
+  <div class="card" onclick="openMovie('Hail Mary')">
+    <img src="https://i.pinimg.com/736x/c9/a4/51/c9a451f8449ce2ab3ba9abe63d017007.jpg" />
+    <h2>Hail Mary</h2>
+  </div>
+
+  <div class="card" onclick="openMovie('Interstellar')">
+    <img src="https://i.pinimg.com/1200x/0b/34/ce/0b34ce2145b475247577a5d438a199b0.jpg" />
+    <h2>Interstellar</h2>
+  </div>
+
+</div>
+
+<script>
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    window.location.href = "login.html";
+  }
+
+  function openMovie(name) {
+    localStorage.setItem("movie", name);
+    window.location.href = "movie.html";
+  }
+
+  function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+  }
+
+</script>
+
+</body>
+</html>

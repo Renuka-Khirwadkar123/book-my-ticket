@@ -1,0 +1,109 @@
+body {
+  font-family: Arial;
+  background: #0b0b0b;
+  color: white;
+  text-align: center;
+  margin: 0;
+}
+
+h1 {
+  color: #ff3b3b;
+}
+
+/* MOVIES */
+.movies {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+
+/* 🎬 CARD */
+.card {
+  width: 220px;
+  background: #1c1c1c;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+/* 🔥 IMAGE FIX (NO STRETCH / NO CROP) */
+.card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 🎯 TITLE BELOW IMAGE */
+.card h2 {
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+  margin: 0;
+}
+
+/* ✨ HOVER */
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* SEATS */
+#seat-map {
+  margin-top: 30px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.seat {
+  width: 34px;
+  height: 34px;
+  background: #2ecc71;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.seat:hover {
+  transform: scale(1.2);
+}
+
+.selected { background: yellow; }
+.booked { background: red; }
+
+/* SCREEN */
+.screen {
+  background: white;
+  color: black;
+  width: 50%;
+  margin: 20px auto;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+/* TOAST */
+#toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff3b3b;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 10px;
+  display: none;
+  font-weight: bold;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
