@@ -12,7 +12,7 @@ exports.bookSeats = async (req, res) => {
 
     const insertQuery = `
       INSERT INTO bookings(show_id, seat_number, status, user_id)
-      SELECT $1, $2, UNNEST($3::text[]), 'booked', $4
+      SELECT $1, UNNEST($2::text[]), 'booked', $3
       ON CONFLICT (show_id, seat_number) DO NOTHING
        RETURNING *;
     `;
@@ -27,8 +27,8 @@ exports.bookSeats = async (req, res) => {
       await client.query("ROLLBACK");
 
       return res.status(400).json({
-        message: "Some seats already booked",
-        unavailable_seats: booked 
+        message: "Some seats already booked"
+  
       });
     }
 
