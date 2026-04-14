@@ -11,7 +11,7 @@ const app = new express();
 const path = require("path");
 const authRoutes = require("./routes/auth");
 const movieRoutes = require("./routes/movies");
-const showRoutes = require("./routes/shows");
+// const showRoutes = require("./routes/shows");
 const bookingRoutes = require("./routes/bookings");
 const seatRoutes = require("./routes/seats");
 
@@ -47,7 +47,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authRoutes);
 app.use("/movies", movieRoutes);
-app.use("/shows", showRoutes);
+// app.use("/shows", showRoutes);
 app.use("/bookings", bookingRoutes);
 app.use("/seats", seatRoutes);
 

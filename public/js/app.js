@@ -1,114 +1,131 @@
-document.addEventListener("DOMContentLoaded", async() => {
+// ===============================
+// APP.JS (SINGLE FILE CONTROLLER)
+// ===============================
 
-const movie = localStorage.getItem("movie");
-document.getElementById("movieTitle").innerText = "🎬 " + movie;
-
-const rows = ["A","B","C","D","E","F"];
-const cols = 10;
-
-let selectedSeats = [];
-
-const seatMap = document.getElementById("seat-map");
-
-rows.forEach(row => {
-  const rowDiv = document.createElement("div");
-  rowDiv.classList.add("row");
-
-  for (let i = 1; i <= cols; i++) {
-    const seatId = row + i;
-
-    const seat = document.createElement("div");
-    seat.classList.add("seat");
-    seat.innerText = seatId;
-
-    seat.onclick = () => toggle(seat, seatId);
-
-    rowDiv.appendChild(seat);
-  }
-
-  seatMap.appendChild(rowDiv);
-
+document.addEventListener("DOMContentLoaded", () => {
+  initAuthPages();
+  initSeatsPage();
 });
 
-  await loadBookedSeats();
+// ===============================
+// AUTH (REGISTER + LOGIN)
+// ===============================
 
-function toggle(seat, id) {
-  if (seat.classList.contains("selected")) {
-    seat.classList.remove("selected");
-    selectedSeats = selectedSeats.filter(s => s !== id);
-  } else {
-    seat.classList.add("selected");
-    selectedSeats.push(id);
+function initAuthPages() {
+  const loginBtn = document.querySelector("#loginBtn");
+  const registerBtn = document.querySelector("#registerBtn");
+
+  if (loginBtn) {
+    loginBtn.onclick = login;
+  }
+
+  if (registerBtn) {
+    registerBtn.onclick = register;
   }
 }
 
-async function loadBookedSeats() {
-    try {
-      const res = await fetch(`/bookings/show/${show_id}`);  // 👈 show_id available hai ab
-      const data = await res.json();
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-      data.booked_seats.forEach(seatId => {
-        const seatEl = [...document.querySelectorAll(".seat")]
-          .find(el => el.innerText === seatId);
-        if (seatEl) {
-          seatEl.classList.add("booked");
-        }
-      });
-    } catch (err) {
-      console.error("Failed to load booked seats:", err);
-    }
-  }
-
-window.bookSeats = async function () {
-
- const token = localStorage.getItem("token");
-
-if (!token) {
-    alert("Please log in to book seats.");
-    return;
-  }
-
-
-  if (selectedSeats.length === 0) {
-    alert("Select seats first!");
-    return;
-  }
-
-  const res = await fetch("/bookings", {
+  const res = await fetch("/auth/login", {
     method: "POST",
-    headers: {"Content-Type":"application/json",
-              "Authorization": "Bearer " + token
-},
-    body: JSON.stringify({
-      show_id: 1,
-      seats: selectedSeats
-    })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password })
   });
 
   const data = await res.json();
 
-  showToast(data.message);
-
   if (res.ok) {
-    document.querySelectorAll(".selected").forEach(s=>{
-      s.classList.remove("selected");
-      s.classList.add("booked");
-    });
-
-    selectedSeats = [];
+    alert("Login successful");
+    window.location.href = "index.html";
+  } else {
+    alert(data.message || "Login failed");
   }
 }
 
-function showToast(msg) {
-  const toast = document.getElementById("toast");
+async function register() {
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  toast.innerText = msg;
-  toast.style.display = "block";
+  const res = await fetch("/auth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, password })
+  });
 
-  setTimeout(() => {
-    toast.style.display = "none";
-  }, 2000);
+  const data = await res.json();
+
+  if (res.ok) {
+    alert("Registered successfully");
+    window.location.href = "login.html";
+  } else {
+    alert(data.message || "Register failed");
+  }
 }
 
+// ===============================
+// SEATS PAGE
+// ===============================
 
-});
+function initSeatsPage() {
+  const tbl = document.getElementById("tbl");
+  if (!tbl) return;
+
+  loadSeats();
+}
+
+// Load seats from backend
+async function loadSeats() {
+  const res = await fetch("/seats");
+  const seats = await res.json();
+
+  const tbl = document.getElementById("tbl");
+  tbl.innerHTML = "";
+
+  const sorted = seats.sort((a, b) => a.id - b.id);
+
+  let tr;
+
+  sorted.forEach((seat, i) => {
+    if (i % 8 === 0) tr = document.createElement("tr");
+
+    const td = document.createElement("td");
+
+    const base =
+      "w-32 h-32 rounded-2xl text-center align-middle text-2xl font-bold transition-all duration-300 select-none relative group";
+
+    if (seat.isbooked) {
+      td.className = `${base} bg-rose-500/10 text-rose-500/60 cursor-not-allowed`;
+      td.innerHTML = `<span>${seat.id}</span>`;
+    } else {
+      td.className = `${base} bg-emerald-500 text-white cursor-pointer`;
+      td.innerHTML = `<span>${seat.id}</span>`;
+
+      td.onclick = () => bookSeat(seat);
+    }
+
+    tr.appendChild(td);
+    tbl.appendChild(tr);
+  });
+}
+
+// Book seat (SINGLE + SIMPLE)
+async function bookSeat(seat) {
+  const name = prompt("Enter your name");
+  if (!name) return;
+
+  const res = await fetch(`/${seat.id}/${name}`, {
+    method: "PUT"
+  });
+
+  const data = await res.json();
+
+  if (res.ok) {
+    alert("Seat booked successfully!");
+    loadSeats(); // refresh UI
+  } else {
+    alert(data.error || "Booking failed");
+  }
+}
