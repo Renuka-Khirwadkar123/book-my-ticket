@@ -68,6 +68,9 @@
     </div>
 
     <script>
+      if (!localStorage.getItem("token")) {
+               window.location.href = "login.html";
+                                         }
       async function run() {
         const tbl = document.getElementById("tbl");
         const res = await fetch("/seats");
@@ -109,7 +112,7 @@
               const name = prompt("Enter your name");
               if (!name) return;
 
-              const res = await fetch(`bookings/${id}/${name}`, {
+              const res = await fetch(`/bookings/${id}/${name}`, {
                 
                 method: "PUT" ,
                 headers: {
