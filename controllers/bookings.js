@@ -26,8 +26,13 @@ exports.bookSeats = async (req, res) => {
     if (result.rows.length !== seats.length) {
       await client.query("ROLLBACK");
 
+      const unavailable_seats = seats.filter( 
+        s => !result.rows.some(r => r.seat_number === s)
+      );
+
       return res.status(400).json({
-        message: "Some seats already booked"
+        message: "Some seats already booked",
+         unavailable_seats   
   
       });
     }

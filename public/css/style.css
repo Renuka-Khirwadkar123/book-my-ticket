@@ -79,8 +79,22 @@ h1 {
   transform: scale(1.2);
 }
 
-.selected { background: yellow; }
-.booked { background: red; }
+/* .selected { background: yellow; }
+.booked { background: red; } */
+
+.seat.selected {
+  background: yellow;
+}
+
+.seat.booked {
+  background: #e60000;
+  cursor: not-allowed;
+  pointer-events: none;    /* click band */
+}
+
+.seat:hover:not(.booked) {
+  transform: scale(1.2);   /* booked seat pe hover effect band */
+}
 
 /* SCREEN */
 .screen {
