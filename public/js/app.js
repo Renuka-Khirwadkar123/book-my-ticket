@@ -27,6 +27,7 @@ rows.forEach(row => {
   }
 
   seatMap.appendChild(rowDiv);
+  await loadBookedSeats();
 });
 
 function toggle(seat, id) {
@@ -88,6 +89,19 @@ function showToast(msg) {
   setTimeout(() => {
     toast.style.display = "none";
   }, 2000);
+}
+// Fetch already booked seats from DB
+async function loadBookedSeats() {
+  const res = await fetch(`/bookings/show/${show_id}`);
+  const data = await res.json();
+
+  data.booked_seats.forEach(seatId => {
+    const seatEl = [...document.querySelectorAll(".seat")]
+      .find(el => el.innerText === seatId);
+    if (seatEl) {
+      seatEl.classList.add("booked");
+    }
+  });
 }
 
 });
