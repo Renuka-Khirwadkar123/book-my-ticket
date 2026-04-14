@@ -1,7 +1,7 @@
 const pool = require("../db");
 
 exports.bookSeats = async (req, res) => {
-  const { movie_id, show_id, seats } = req.body;
+  const {show_id, seats } = req.body;
 
   const user_id = req.user.id;
 
@@ -11,14 +11,13 @@ exports.bookSeats = async (req, res) => {
     await client.query("BEGIN");
 
     const insertQuery = `
-      INSERT INTO bookings(movie_id, show_id, seat_number, status, user_id)
+      INSERT INTO bookings(show_id, seat_number, status, user_id)
       SELECT $1, $2, UNNEST($3::text[]), 'booked', $4
       ON CONFLICT (show_id, seat_number) DO NOTHING
        RETURNING *;
     `;
 
     const result = await client.query(insertQuery, [
-      movie_id,
       show_id,
       seats,
       user_id
