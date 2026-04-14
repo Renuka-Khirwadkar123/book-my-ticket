@@ -6,13 +6,13 @@
 // INSERT INTO seats (isbooked)
 // SELECT 0 FROM generate_series(1, 20);
 
-import express from "express";
+const express = require("express");
 const app = new express();
-import authRoutes from "./routes/auth.js"; 
-import movieRoutes from "./routes/movies.js";
-import showRoutes from "./routes/shows.js";
-import bookingRoutes from "./routes/bookings.js";
-import seatRoutes from "./routes/seats.js";
+const authRoutes = require("./routes/auth");
+const movieRoutes = require("./routes/movies");
+const showRoutes = require("./routes/shows");
+const bookingRoutes = require("./routes/bookings");
+const seatRoutes = require("./routes/seats");
 
 // import pg from "pg";
 // import { dirname } from "path";
